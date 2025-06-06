@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4KBP5C6TJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-M4KBP5C6TJ');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5311812061105987"
+    crossorigin="anonymous"></script>
+
+  <!-- browser tab -->
+  <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+  <title>Golden Arrow Maps</title>
+  <!-- loading in desktop mode -->
+
+  <style>
+    body {
+      zoom: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      /* Allow vertical scrolling */
+    }
+  </style>
+  <script>
+    function setDesktopView() {
+      var scale = 1 / window.devicePixelRatio;
+      var content = 'width=device-width, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no';
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = content;
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+    setDesktopView();
+  </script>
+
+  <!-- webpage meta properties -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta property="og:title" content="Golden Arrow Maps" />
+  <meta property="og:description"
+    content="Your collection of bus routes and timetables, of the golden arrow bus services, to help you plan your commute across Cape Town." />
+  <meta property="og:image" content="./images/gamaps.png" />
+  <meta property="og:url" content="www.goldenarrowmaps.com" />
+  <title>Multi-Filter Image Gallery</title>
+  <link rel="stylesheet" href="newstyles.css">
+
+  <!-- connecting the open-street maps css-script and javascripts to the  -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="Control.FullScreen.css" />
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="Control.FullScreen.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+
+  <!-- scripts which style the body elements -->
+  <!-- logo and map placement -->
+  <style>
+    .logocontainer {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+      background: #dfe0d8;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 0;
+    }
+    #logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-right: 16px;
+    }
+    #map {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+    body {
+      padding-top: 300px; /* Add space for fixed header */
+    }
+  </style>
+
+  <!-- webpage text font/fontsize -->
+  <style>
+    /* Style the body */
+    body {
+      font-family: Arial;
+      margin: 0;
+    }
+
+    /* Header/Logo Title */
+    .header {
+      padding: 60px;
+      text-align: center;
+      background: #ffde59;
+      color: white;
+      font-size: 30px;
+    }
+
+    /* Page Content */
+    .content {
+      padding: 20px;
+    }
+  </style>
+
+  <!-- background image -->
+  <style>
+    body {
+      background-image: url('./images/CR_background.jpeg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+  </style>
+
+  <!-- grid menu  -->
+  <style>
+    .filterdiv {
+      display: none;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .container {
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    /* Style the buttons */
+    .btn {
+      border: none;
+      outline: none;
+      padding: 12px 16px;
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #ddd;
+    }
+
+    .btn.active {
+      background-color: #666;
+      color: white;
+    }
+  </style>
+
+  <style>
+    div.gallery {
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+    }
+
+    div.gallery:hover {
+      border: 1px solid #777;
+    }
+
+    div.gallery img {
+      width: 100%;
+      height: 0.5width;
+    }
+
+    div.desc {
+      padding: 15px;
+      text-align: center;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .responsive {
+      padding: 6px 6px;
+      float: left;
+      width: 100%;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+      }
+    }
+
+    @media only screen and (max-width: 500px) {
+      .responsive {
+        width: 100%;
+      }
+    }
+
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+  <!-- train menu  -->
+  <style>
+    .traincontainer {
+      position: relative;
+      width: 100px;
+      height: 50px;
+      overflow: hidden;
+      background-color: #f9f9f9;
+    }
+
+    .marquee {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: 50px;
+      text-align: left;
+      animation: marquee 30s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .trainblock {
+      position: absolute;
+      width: 40%;
+      height: 50px;
+      right: 0;
+      background-color: #fff;
+      border-left: 1px solid #000;
+      text-align: left;
+      line-height: 50px;
+    }
+  </style>
+  <style>
+    div.traingallery {
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+    }
+
+
+    div.traingallery:hover {
+      border: 1px solid #777;
+    }
+
+    div.traingallery img {
+      width: 100%;
+      height: 0.5width;
+    }
+
+    div.traindesc {
+      padding: 15px;
+      text-align: center;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .trainresponsive {
+      padding: 6px 6px;
+      float: left;
+      width: 24.99999%;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+      }
+    }
+
+    @media only screen and (max-width: 500px) {
+      .responsive {
+        width: 100%;
+      }
+    }
+
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+
+  <style>
+    .button_container {
+      display: flex;
+      width: 200px;
+      height: 30px;
+      align-items: center;
+      border: 1px solid #000;
+      padding: 10px;
+    }
+
+    .button {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid #000;
+      text-align: right;
+    }
+
+    .button:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .button.clicked:after {
+      display: block;
+      content: "x";
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+
+  <style>
+    .button_container {
+      display: flex;
+      width: 200px;
+      height: 30px;
+      align-items: center;
+      border: 1px solid #000;
+      padding: 10px;
+    }
+
+
+    .buttonX {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid #000;
+      text-align: right;
+    }
+  </style>
+
+  <style>
+    .truncate-text {
+      display: inline-block;
+      max-width: 200px;
+      /* Adjust as needed */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
+    }
+
+    .truncate-text:hover {
+      white-space: normal;
+      overflow: visible;
+    }
+  </style>
+
+  <style>
+    .responsive-img {
+      width: 100px;
+      /* Set the desired width */
+      height: 200px;
+      /* Set the desired height */
+      object-fit: cover;
+      /* Ensures the image fits within the dimensions without distortion */
+    }
+  </style>
+  <!-- Footer Elements -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body1 {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .segments-container1 {
+      display: flex;
+      gap: 20px;
+    }
+
+    .segment1 {
+      background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      width: 200px;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .segment1 img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .segment1 img:hover {
+      transform: scale(1.1);
+    }
+
+    .segment1 p {
+      margin-top: 10px;
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
+
+
+  <style>
+    /* Full-screen overlay for pop-up */
+    #popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      /* Semi-transparent background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    /* Centered pop-up box */
+    #popup-box {
+      background-color: #f0f8ff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    /* Pop-up message style */
+    #popup-box p {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      color: #333;
+      margin: 0;
+    }
+
+    /* Button style */
+    #popup-box button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border: none;
+      background-color: #0078d4;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+
+
+<style>
+  .gallery-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 80%;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: stretch;
+  }
+</style>
+
+  <style>
+    .footer-container {
+      width: 80%;
+      /* Occupy 80% of the screen width */
+      margin: 0 auto;
+      /* Center the container horizontally */
+      display: flex;
+      flex-wrap: wrap;
+      /* Allow items to wrap to the next line */
+      justify-content: center;
+      /* Center the gallery items */
+      background: rgba(255, 255, 255, 0.8);
+      /* Semi-transparent white background */
+      backdrop-filter: blur(10px);
+      /* Apply background blur */
+      border-radius: 10px;
+      /* Add rounded corners */
+      padding: 20px;
+      /* Add padding for better spacing */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      /* Add subtle shadow for emphasis */
+    }
+  </style>
+
+  <script>
+    function setDesktopView() {
+      var scale = 1 / window.devicePixelRatio;
+      var content = 'width=1024, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no';
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = content;
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+    setDesktopView();
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      populateMenus();
+      document.getElementById("menu1").addEventListener("change", filterGalleryFrom);
+      document.getElementById("menu2").addEventListener("change", filterGalleryTo);
+  });
+  
+  function populateMenus() {
+      var images = document.querySelectorAll(".filterdiv");
+      var menu1 = document.getElementById("menu1");
+      var menu2 = document.getElementById("menu2");
+      var fromSet = new Set();
+      var toSet = new Set();
+  
+      images.forEach(function(image) {
+          fromSet.add(image.getAttribute("data-from"));
+          toSet.add(image.getAttribute("data-to"));
+      });
+  
+      var sortedFromSet = Array.from(fromSet).sort();
+      var sortedToSet = Array.from(toSet).sort();
+  
+      sortedFromSet.forEach(function(item) {
+          var option = document.createElement("option");
+          option.value = item;
+          option.text = item;
+          menu1.appendChild(option);
+      });
+  
+      sortedToSet.forEach(function(item) {
+          var option = document.createElement("option");
+          option.value = item;
+          option.text = item;
+          menu2.appendChild(option);
+      });
+  }
+  
+  function filterGalleryFrom() {
+      var menu1Value = document.getElementById("menu1").value;
+      var images = document.querySelectorAll(".filterdiv");
+      var toSet = new Set();
+  
+      images.forEach(function(image) {
+          var dataFrom = image.getAttribute("data-from");
+          var dataTo = image.getAttribute("data-to");
+  
+          if (menu1Value === "" || dataFrom === menu1Value) {
+              toSet.add(dataTo);
+              image.style.display = "block";
+          } else {
+              image.style.display = "none";
+          }
+      });
+  
+      updateMenu("menu2", toSet);
+  }
+  
+  function filterGalleryTo() {
+      var menu2Value = document.getElementById("menu2").value;
+      var images = document.querySelectorAll(".filterdiv");
+      var fromSet = new Set();
+  
+      images.forEach(function(image) {
+          var dataFrom = image.getAttribute("data-from");
+          var dataTo = image.getAttribute("data-to");
+  
+          if (menu2Value === "" || dataTo === menu2Value) {
+              fromSet.add(dataFrom);
+              image.style.display = "block";
+          } else {
+              image.style.display = "none";
+          }
+      });
+  
+      updateMenu("menu1", fromSet);
+  }
+  
+  function updateMenu(menuId, newOptionsSet) {
+      var menu = document.getElementById(menuId);
+      var selectedValue = menu.value;
+      menu.innerHTML = "";
+      var defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.text = "--Select--";
+      menu.appendChild(defaultOption);
+  
+      var sortedOptions = Array.from(newOptionsSet).sort();
+  
+      sortedOptions.forEach(function(item) {
+          var option = document.createElement("option");
+          option.value = item;
+          option.text = item;
+          if (item === selectedValue) {
+              option.selected = true;
+          }
+          menu.appendChild(option);
+      });
+  }
+</script>
+
+<style>
+  .fixed-gallery-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: stretch;
+    justify-items: center;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    padding: 16px 0;
+    margin-bottom: 24px;
+  }
+  .fixed-gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .fixed-gallery-item img {
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+    border-radius: 4px;
+  }
+  .fixed-gallery-item .desc {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  @media (max-width: 900px) {
+    .fixed-gallery-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .fixed-gallery-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<style>
+  .marquee-container {
+    position: relative;
+    width: 300px;
+    height: 50px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+  }
+  
+  .marquee {
+    position: absolute;
+    width: 600%;
+    height: 100%;
+    line-height: 50px;
+    text-align: left;
+    animation: marquee 15s linear infinite;
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  .block {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    right: 0;
+    background-color: #fff;
+    border-left: 1px solid #000;
+    text-align: center;
+    line-height: 50px;
+  }
+  </style>
+
+<style>
+  .menu-container {
+    width: 80%;
+    margin: 24px auto 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    padding: 16px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .menu-container label,
+  .menu-container select,
+  .menu-container button {
+    font-size: 1rem;
+    margin: 0 8px;
+  }
+  @media (max-width: 900px) {
+    .menu-container {
+      flex-direction: column;
+      width: 95%;
+      gap: 8px;
+    }
+  }
+</style>
+  
+</head>
+
+<body>
+  <!-- Pop-up Overlay -->
+  <div id="popup-overlay">
+    <div id="popup-box">
+      <a>
+        <img id="logo" src="./images/rotate_screen.png" alt="Logo">
+      </a>
+      <p><strong><a>Rotate Screen for Optimal Mobile Experience</a></strong></p>
+    </div>
+  </div>
+
+  <div class="logocontainer">
+    <img id="logo" src="./images/CA_logo_beige.png" alt="Logo" style="height:100%; width:auto; object-fit:contain; flex:1;">
+    <img id="map" src="./images/CTaccessible.png" alt="Hub Stations" title="Cape Town Accessible" style="height:100%; width:auto; object-fit:contain; flex:1;">
+  </div>
+<div class="clearfix"></div>
+  <div id="donate-button-container">
+    <div id="donate-button"></div>
+    <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+    <script>
+      PayPal.Donation.Button({
+        env: 'production',
+        hosted_button_id: '5ABHBDZBCJLU2',
+        image: {
+          src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
+          alt: 'Donate with PayPal button',
+          title: 'PayPal - The safer, easier way to pay online!',
+        }
+      }).render('#donate-button');
+    </script>
+  </div>
+
+
+  <script>
+    function toggleX(button) {
+      button.classList.toggle('clicked');
+    }
+  </script>
+
+  <script>
+    // Close pop-up when clicking anywhere on the overlay
+    document.getElementById('popup-overlay').addEventListener('click', function () {
+      document.getElementById('popup-overlay').style.display = 'none';
+    });
+  </script>
+
+
+
+
+<div class="menu-container">
+<h1>Cape Town Metrorail Trains</h1>
+</div>
+<div class="clearfix"></div>
+<div class="fixed-gallery-row" style="width:80%;margin:32px auto 0 auto;">
+  <div class="fixed-gallery-item">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="southern_line/timetable.html">
+          <img src="./southern_line/train_01XX.jpg" alt="Southern" width="200" height="300">
+        </a>
+        <div class="desc">
+          <div class="marquee-container">
+            <div class="marquee" width: 200%>Cape Town &#128646; Woodstock &#128646;Salt River &#128646;Observatory &#128646;Mowbray &#128646;Rosebank &#128646;Rondebosch &#128646; Newlands &#128646;Claremont &#128646;Harfield Rd &#128646;Kenilworth &#128646;Wynberg &#128646;Wittebome &#128646;Plumstead &#128646;Steurhof &#128646;Dieprivier &#128646;Heathfield &#128646;Retreat &#128646;Steenberg &#128646;Lakeside &#128646;False Bay &#128646;Muizenberg &#128646;St James &#128646;Kalk Bay &#128646;Fish Hoek </div>
+            <div class="block" ><a href="southern_line/timetable.html"  target="_blank" style="background-color: #ffffff;">Southern Line</a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-gallery-item">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="northern_line/timetable.html">
+          <img src="./northern_line/metrorail_northern.png" alt="Northern" width="200" height="300">
+        </a>
+        <div class="desc">
+          <div class="marquee-container">
+            <div class="marquee" scrolldelay='1s'>Cape Town&#128646; Woodstock&#128646; Salt River&#128646; Koeberg Rd&#128646; Maitland&#128646; Woltemade&#128646; Mutual&#128646; Thornton&#128646; Goodwood&#128646; Vasco&#128646; Elsies River&#128646; Parow&#128646; Tygerberg&#128646; Bellville&#128646; Kuils River&#128646; Blackheath&#128646; Meltonrose&#128646; Eerste River&#128646; Lynedoch&#128646; Vlottenburg&#128646; Du Toit&#128646; Koelenhof&#128646; Muldersvlei&#128646; Klapmuts&#128646; Paarl&#128646;Huguenot&#128646; Dal Josafat&#128646; Mbekweni&#128646; Wellington</div>
+	          <div class="block" ><a href="northern_line/timetable.html"  target="_blank" style="background-color: #ffffff;">Northern Line</a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-gallery-item">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="monte_vista/timetable.html">
+          <img src="./monte_vista/metrorail_monte.png" alt="Monte Vista">
+        </a>
+        <div class="desc">
+          <div class="marquee-container">
+            <div class="marquee" scrolldelay='1s'>Cape Town&#128646; Esplanade&#128646; Ysterplaat&#128646; Century City&#128646; Monte Vista&#128646; De Grendel&#128646; Avondale&#128646; Oostersee&#128646; Bellville  </div>
+            <div class="block" ><a href="monte_vista/timetable.html"  target="_blank" style="background-color: #ffffff;">Monte Vista</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-gallery-item">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="cape_flats/timetable.html">
+          <img src="./cape_flats/train_05XX.jpg" alt="Cape Flats" width="200" height="300"> 
+        </a>
+        <div class="desc">
+          <div class="marquee-container">
+            <div class="marquee" scrolldelay='1s'>Cape Town&#128646; Woodstock&#128646; Salt River&#128646; Koeberg Rd&#128646; Maitland&#128646; Ndabeni&#128646; Pinelands&#128646; Hazendal&#128646; Athlone&#128646; Crawford&#128646; Lansdowne&#128646; Wetton&#128646; Ottery&#128646; Southfield&#128646; Heathfield&#128646; Retreat </div>
+            <div class="block" ><a href="cape_flats/timetable.html"  target="_blank" style="background-color: #ffffff;">Cape Flats Line</a></div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="menu-container">
+  <h1>Cape Town, Golden Arrow Busses.</h1>
+  <div class="clearfix"></div>
+  <label for="menu1">From:</label>
+  <select id="menu1">
+    <option value="">--Select--</option>
+  </select>
+  <label for="menu2">To:</label>
+  <select id="menu2">
+    <option value="">--Select--</option>
+  </select>
+  <br>
+  <button id="toggleButton" class="btn">Show All Routes</button>
+</div>
+
+<div class="clearfix"></div>
+<div class="gallery-container">
+  <div class="filterdiv" data-route="77D" data-from="TOWN CENTRE" data-to="CAPE TOWN" data-via="ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.png">
+          <img src="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.jpg" alt="TOWN CENTRE/CAPE TOWN" title="Route 77D" >
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Tpdf/TOWN_CENTRE___CAPE_TOWN_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">TOWN CENTRE to CAPE TOWN via ROCKLANDS</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77D" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="filterdiv" data-route="77JR" data-from="MOWBRAY" data-to="TOWN CENTRE" data-via="KLIPFONTEIN ROAD; HIGLNADS DRIVE; MITCHELL AVENUE & ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.png">
+          <img src="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.jpg" alt="MOWBRAY/TOWN CENTRE" title="Route 77JR">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___TOWN_CENTRE_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to TOWN CENTRE via KLIPFONTEIN ROAD</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77JR" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77V" data-from="MOWBRAY" data-to="ROCKLANDS" data-via="KLIPFONTEIN; DUINEFONTEIN; VANGUARD; HIGHLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.png">
+          <img src="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.jpg" alt="MOWBRAY/ROCKLANDS" title="Route 77V">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___ROCKLANDS_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to ROCKLANDS via KLIPFONTEIN</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77V" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77D" data-from="TOWN CENTRE" data-to="CAPE TOWN" data-via="ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.png">
+          <img src="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.jpg" alt="TOWN CENTRE/CAPE TOWN" title="Route 77D" >
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Tpdf/TOWN_CENTRE___CAPE_TOWN_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">TOWN CENTRE to CAPE TOWN via ROCKLANDS</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77D" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77JR" data-from="MOWBRAY" data-to="TOWN CENTRE" data-via="KLIPFONTEIN ROAD; HIGLNADS DRIVE; MITCHELL AVENUE & ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.png">
+          <img src="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.jpg" alt="MOWBRAY/TOWN CENTRE" title="Route 77JR">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___TOWN_CENTRE_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to TOWN CENTRE via KLIPFONTEIN ROAD</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77JR" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77V" data-from="MOWBRAY" data-to="ROCKLANDS" data-via="KLIPFONTEIN; DUINEFONTEIN; VANGUARD; HIGHLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.png">
+          <img src="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.jpg" alt="MOWBRAY/ROCKLANDS" title="Route 77V">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___ROCKLANDS_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to ROCKLANDS via KLIPFONTEIN</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77V" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div><div class="filterdiv" data-route="77D" data-from="TOWN CENTRE" data-to="CAPE TOWN" data-via="ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.png">
+          <img src="./all_routes/TOWN CENTRE_CAPE TOWN_via_77D/thumb77_D_TOWN CENTRE___CAPE TOWN.jpg" alt="TOWN CENTRE/CAPE TOWN" title="Route 77D" >
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Tpdf/TOWN_CENTRE___CAPE_TOWN_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">TOWN CENTRE to CAPE TOWN via ROCKLANDS</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77D" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77JR" data-from="MOWBRAY" data-to="TOWN CENTRE" data-via="KLIPFONTEIN ROAD; HIGLNADS DRIVE; MITCHELL AVENUE & ROCKLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.png">
+          <img src="./all_routes/MOWBRAY_TOWN CENTRE_via_77JR/thumb77_JR_MOWBRAY___TOWN CENTRE.jpg" alt="MOWBRAY/TOWN CENTRE" title="Route 77JR">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___TOWN_CENTRE_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to TOWN CENTRE via KLIPFONTEIN ROAD</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77JR" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filterdiv" data-route="77V" data-from="MOWBRAY" data-to="ROCKLANDS" data-via="KLIPFONTEIN; DUINEFONTEIN; VANGUARD; HIGHLANDS">
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.png">
+          <img src="./all_routes/MOWBRAY_ROCKLANDS_via_77V/thumb77_V_MOWBRAY___ROCKLANDS.jpg" alt="MOWBRAY/ROCKLANDS" title="Route 77V">
+        </a>
+          <div class="desc">
+              <a href="https://www.gabs.co.za/Pdf/Mpdf/MOWBRAY___ROCKLANDS_from_20250421_to_99999999_007701.pdf" target="_blank" style="background-color: #ffffff;">
+              <span class="truncate-text">MOWBRAY to ROCKLANDS via KLIPFONTEIN</span>
+              </a>
+          </div>
+        <div class="button_container">
+          <button id="button77V" class="button" onclick="toggleX(this)"></button>
+          <label>add to route-planner</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="newscript.js"></script>
+
+
+  <div class="clearfix"></div>
+  <!-- Adding Train Routes -->
+
+
+
+
+  <!-- Instantiating the map to set the first 4 maps to display  -->
+<script>
+  // Function to filter and display the images based on the class name and data attributes
+  function filterSelection(c) {
+    var x, i;
+    x = document.getElementsByClassName("filterdiv"); // Get all filterdiv elements
+  
+    // If 'default' is selected, show only the first 4 elements
+    if (c == "default") {
+      for (i = 0; i < x.length; i++) {
+        if (i < 4) {
+          // Show the first 4 elements
+          w3AddClass(x[i], "show");
+        } else {
+          // Hide all other elements
+          w3RemoveClass(x[i], "show");
+        }
+      }
+    }
+    else if (c === "all") {
+      // For 'all', show all filterdiv elements
+      for (i = 0; i < x.length; i++) {
+        w3AddClass(x[i], "show"); // Show all elements
+      }
+    }
+  }
+  
+  // Function to add a class to an element
+  function w3AddClass(element, name) {
+    var arr1 = element.className.split(" ");
+    var arr2 = name.split(" ");
+    for (var i = 0; i < arr2.length; i++) {
+      if (arr1.indexOf(arr2[i]) == -1) {
+        element.className += " " + arr2[i];
+      }
+    }
+  }
+  
+  // Function to remove a class from an element
+  function w3RemoveClass(element, name) {
+    var arr1 = element.className.split(" ");
+    var arr2 = name.split(" ");
+    for (var i = 0; i < arr2.length; i++) {
+      while (arr1.indexOf(arr2[i]) > -1) {
+        arr1.splice(arr1.indexOf(arr2[i]), 1);
+      }
+    }
+    element.className = arr1.join(" ");
+  }
+  
+  // Function to toggle between 'Show All' and 'Hide' states
+  document.getElementById("toggleButton").addEventListener("click", function() {
+    var button = this;
+    
+    // If the button is currently "Show All", we show all and change text to "Hide"
+    if (button.innerText === "Show All") {
+      filterSelection("all");
+      button.innerText = "Hide"; // Change text to "Hide"
+    } else {
+      // If the button is "Hide", we filter for default (first 4 items visible) and change text back to "Show All"
+      filterSelection("default");
+      button.innerText = "Show All"; // Change text to "Show All"
+    }
+  });
+  
+  // On page load, set the initial state to "default" (first 4 items visible, "Hide" button)
+  window.onload = function() {
+    filterSelection("default"); // Show only the first 4 elements
+    document.getElementById("toggleButton").innerText = "Show All"; // Set button text to "Hide"
+  };
+  
+  // Add active class to the current button (highlight it)
+  // Assuming you already have the functionality for highlighting active buttons
+  var btnContainer = document.getElementById("myBtnContainer");
+  var btns = btnContainer.getElementsByClassName("btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function(){
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+    });
+  }
+  </script>
+
+  <!-- the footer of the website /redirect-links/donation-links/ future twitter-feeds golden-arrow/metrorail -->
+
+  <div class="clearfix"></div>
+
+  <div class="footer-container">
+    <h3 align='center'>Produced for Commute Republic</h3>
+    <div style="padding:12px;">
+      <p>Last Updated 2025-04-13</p>
+      <p> The maps and timetables provided on this website are intended for informational purposes only. By accessing
+        and using this website, you acknowledge and agree to the exclusions and limitations of liability as detailed in
+        our <a href="disclaimer.html">Website Disclaimer</a>.</p>
+      <p>👨‍💻 Website Designed by <a href="https://www.facebook.com/AndyLeonFirth">@AndyLeonFirth</a></p>
+      <p>🎨 Website Art by <a href="https://www.instagram.com/typically_sara/">@typically_sara</a></p>
+      <p>📷 Website Photography by <a href="https://www.instagram.com/tauheerah_02/">@tauheerah_02</a></p>
+    </div>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5311812061105987"
+      crossorigin="anonymous">
+      </script>
+
+    <div class="segments-container1">
+      <div class="segment1">
+        <a href="https://commuterepublic.wordpress.com" target="_blank">
+          <img src="./images/CR_logo.png" alt="Image 1">
+        </a>
+        <p>This website is designed, maintained, and adorned by Capetonian artists for Capetonians. Be duids - support
+          local artists and business! Only together can we reach the goal of making Cape Town, Accessible! </p>
+        <p>Compliments and Complaints welcomed!</p>
+        <p><a href="mailto:acommuta@gmail.com">Email Golden Arrow Maps</a></p>
+      </div>
+      <div class="segment1">
+        <a href="https://commuterepublic.github.io/capetowntrains.github.io/" target="_blank">
+          <img src="./images/cttrains_beige.png" alt="Image 2">
+        </a>
+        <p>Visit our sister-website for more information on routes and timetables of the PRASA metrorail service in Cape
+          Town.</p>
+      </div>
+      <div class="segment1">
+        <a href="https://www.gabs.co.za/GoldCard.aspx" target="_blank">
+          <img src="./images/ga_gold_card.png" alt="Image 3">
+        </a>
+        <p></p>
+        <p>Visit the official website of</p>
+        <p><a href="https://www.gabs.co.za">Golden Arrow Bus Services</a></p>
+        <p>for access to the full set of route timetables and more information on the oldest bus service in South
+          Africa.</p>
+        <p></p>
+      </div>
+      <div class="segment1">
+        <a href="https://www.myciti.org.za/en/myconnect-fares/get-your-myconnect-card/" target="_blank">
+          <img src="./images/myconnect.png" alt="Image 2">
+        </a>
+        <p><a href="https://www.myciti.org.za/em/home">MyCiti</a></p>
+        <p>the cornerstone of Cape Town's integrated rapid transport (IRT) system, connecting Houtbay, Camps Bay, Sea
+          Point,the CBD, Milnerton, Century City,
+          and Blouberg.</p>
+        <p></p>
+      </div>
+      <div class="segment1">
+        <a href="tel:+27800656463" target="_blank">
+          <img src="./images/support.png" alt="Image 2">
+        </a>
+        <p></p>
+        <p>Contact the Cape Town Transport Information Centre (TIC) for more information on train and bus times.</p>
+        <p>24/7 toll-free line:</p>
+        <p><a href="tel:+27800656463">0800 65 64 63</a>.</p>
+
+      </div>
+    </div>
+</body>
+
+</html>
